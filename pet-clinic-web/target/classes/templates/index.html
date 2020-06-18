@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<!--We have given xmlns thymeleas so that we can use templates from thymeleaf -->
+<!--We have copied layout.html in fragment folder from the original spring pet app. Now we are applying
+ that layout inside this index page syaing th:replace/layout. Now it that layout has the look and feel
+ it even has css touch as we have taken css files from less folder and static we have copied images.-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'home')}">
+<head>
+    <meta charset="UTF-8">
+    <title>Pet Clinic Index</title>
+</head>
+<body>
+<h2 th:text="#{welcome}">Welcome</h2>
+<div class="row">
+    <div class="col-md-12">
+        <img class="img-responsive" src="../static/resources/images/pets.png" th:src="@{/resources/images/pets.png}"/>
+    </div>
+</div>
+</body>
+</html>

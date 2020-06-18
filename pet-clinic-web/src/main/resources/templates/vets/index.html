@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List of Vets</title>
+</head>
+<body>
+<h1 th:text="'List of Vets'"></h1>
+<table>
+    <thead>
+    <th>id</th>
+    <th>first Name</th>
+    <th>last Name</th>
+    </thead>
+    <tbody>
+    <!-- each is a loop . vet is a variable(like in for loop it's i) and it is going to get value
+       from vets and will be print id,firstname and last name of each vet -->
+    <!-- If we will see in controllers/vetcontroller class we have added model.addattribute(vets)
+     so from there it is looking for vets-->
+    <tr th:each="vet:${vets}">
+        <td th:text="${vet.id}">1</td>
+        <td th:text="${vet.firstName}">Joe</td>
+        <td th:text="${vet.lastName}">Buck</td>
+
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
