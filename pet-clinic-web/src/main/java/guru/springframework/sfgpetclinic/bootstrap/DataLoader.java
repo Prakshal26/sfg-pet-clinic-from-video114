@@ -1,8 +1,10 @@
 package guru.springframework.sfgpetclinic.bootstrap;
 
 import guru.springframework.sfgpetclinic.model.Owner;
+import guru.springframework.sfgpetclinic.model.PetType;
 import guru.springframework.sfgpetclinic.model.Vet;
 import guru.springframework.sfgpetclinic.services.OwnerService;
+import guru.springframework.sfgpetclinic.services.PetTypeService;
 import guru.springframework.sfgpetclinic.services.VetService;
 import guru.springframework.sfgpetclinic.services.map.OwnerServiceMap;
 import guru.springframework.sfgpetclinic.services.map.VetServiceMap;
@@ -25,6 +27,7 @@ public class DataLoader implements CommandLineRunner {
     //Owner Service is the class we have made in pet-clinic-data repo.
     private final OwnerService ownerService;
     private final VetService vetService;
+    private final PetTypeService petTypeService;
     /* In Video 81 we will comment this part and will make SPring to itself create the object
     and do the intialization
      */
@@ -44,9 +47,10 @@ that service internally.
  */
 
     @Autowired
-    public DataLoader(OwnerService ownerService, VetService vetService) {
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
+        this.petTypeService = petTypeService;
     }
 
     //Run method is in CommandLineRunner Interface provided to us by SpringBoot
@@ -98,6 +102,14 @@ But for the sake of understanding we are adding data traditionally.
         vet2.setLastName("Axeee");
 
         vetService.save(vet2);
+
+        PetType dog = new PetType();
+        dog.setName("Dog");
+        PetType saveDogPetType = petTypeService.save(dog);
+
+        PetType cat = new PetType();
+        cat.setName("Cat");
+        PetType saveCatPetType = petTypeService.save(cat);
 
         System.out.println("Loading Vet");
     }
