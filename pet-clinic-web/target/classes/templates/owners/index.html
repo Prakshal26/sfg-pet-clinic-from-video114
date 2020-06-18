@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- We are doing th:replace, read main index page for description-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
 <head>
     <meta charset="UTF-8">
     <title>List of Pet Owners</title>
 </head>
 <body>
-<h1 th:text="'List of Owners'">Owners List</h1>
-<table>
+<h2 th:text="'List of Owners'">Owners List</h2>
+<!-- At top we have replaced the layout so now this class is part of that thymeleaf layout-->
+<table class="table table-striped">
     <thead>
-    <th>id</th>
-    <th>first Name</th>
-    <th>last Name</th>
+    <th style = "width: 150px;">id</th>
+    <th style = "width: 150px;">first Name</th>
+    <th style = "width: 150px;">last Name</th>
     </thead>
     <tbody>
     <!-- each is a loop . owner is a variable(like in for loop it's i) and it is going to get value
