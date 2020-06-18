@@ -1,6 +1,7 @@
 package guru.springframework.sfgpetclinic.bootstrap;
 
 import guru.springframework.sfgpetclinic.model.Owner;
+import guru.springframework.sfgpetclinic.model.Pet;
 import guru.springframework.sfgpetclinic.model.PetType;
 import guru.springframework.sfgpetclinic.model.Vet;
 import guru.springframework.sfgpetclinic.services.OwnerService;
@@ -12,39 +13,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-/*
-By making this as a component it becomes the spring bean and get registered. SO when it is registered
-it is going to execute the run method.
-i.e even if we do not call this class in run main application class it will still be executed as
-it has it's own run method.
-NOTE: We are not saying that this run is because of Component we have given, but this run method
-is the method of CommandLineRunner interface.
- */
-//ComandLineRunner is the inbuild interface provided by SPringBoot
+import java.time.LocalDate;
+
+
 @Component
 public class DataLoader implements CommandLineRunner {
 
-    //Owner Service is the class we have made in pet-clinic-data repo.
+
     private final OwnerService ownerService;
     private final VetService vetService;
     private final PetTypeService petTypeService;
-    /* In Video 81 we will comment this part and will make SPring to itself create the object
-    and do the intialization
-     */
-    //public DataLoader() {
 
-        //ownerService = new OwnerServiceMap();
-        //vetService = new VetServiceMap();
-    //}
-/*
-This is how Spring will do the initialization for us by creating the constructor and giving
-the autowired.
-In OwnerService class, VetService Class and PEt we have given
-@service to specify that yes that is the service. HEre we are giving autowired that this
-is a service and we need not to create object manyally by giving new.
-Autowired: To tell SpringBoot that Owner Service is a kind of service so just create the object of
-that service internally.
- */
 
     @Autowired
     public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService) {
@@ -56,41 +35,50 @@ that service internally.
     //Run method is in CommandLineRunner Interface provided to us by SpringBoot
     @Override
     public void run(String... args) throws Exception {
-/*
-Here we are adding data to our project. Generally Spring provides better functionality to add the data
-But for the sake of understanding we are adding data traditionally.
- */
-        /*
-        We have created the project of Owner class. Owner has extende PErson class which have
-        the function setfirstname and last name. And in turn Person class has extended BaseEntity
-        class which has the implementation of setid function.
-         */
 
-        //Modified in video 84 now no need to give id manually. It will fetch already existing last id, increase it by 1
-        //and store it at that id. We have implemented this is AbstractMapService class.
+        PetType dog = new PetType();
+        dog.setName("Dog");
+        PetType savedDogPetType = petTypeService.save(dog);
+
+        PetType cat = new PetType();
+        cat.setName("Cat");
+        PetType savedCatPetType = petTypeService.save(cat);
         Owner owner1 = new Owner();
+
         //owner1.setId(1L);
         owner1.setFirstName("Michael");
         owner1.setLastName("weston");
+        owner1.setAddress("123 Brand");
+        owner1.setCity("Miami");
+        owner1.setTelephone("1233455");
 
-        /*
-        Save is the function in OwenerService map. If we will see above we have given inside constructor
-        that owner=new OwnerServiceMap. i.e object of owner service map and hence it has the function save
-        inside it.
-         */
+        Pet mikespet = new Pet();
+        mikespet.setPetType(savedDogPetType);
+        mikespet.setBirthDate(LocalDate.now());
+        mikespet.setName("Rosco");
+        owner1.getPets().add(mikespet);
+
         ownerService.save(owner1);
 
         Owner owner2 = new Owner();
         //owner2.setId(2L);
         owner2.setFirstName("Fiona");
         owner2  .setLastName("Glence");
+        owner2.setAddress("123 Brand");
+        owner2.setCity("Miami");
+        owner2.setTelephone("1233455");
+
+        Pet fionasCat = new Pet();
+        fionasCat.setPetType(savedCatPetType);
+        fionasCat.setOwner(owner2);
+        fionasCat.setName("Just Cat");
+        fionasCat.setBirthDate(LocalDate.now());
+        owner2.getPets().add(fionasCat);
 
         ownerService.save(owner2);
 
         Vet vet1 = new Vet();
-        //Modified in video 84 now no need to give id manually. It will fetch already existing last id, increase it by 1
-        //and store it at that id. We have implemented this is AbstractMapService class.
-        //vet1.setId(1L);
+
         vet1.setFirstName("Sam");
         vet1.setLastName("Axe");
 
@@ -103,13 +91,7 @@ But for the sake of understanding we are adding data traditionally.
 
         vetService.save(vet2);
 
-        PetType dog = new PetType();
-        dog.setName("Dog");
-        PetType saveDogPetType = petTypeService.save(dog);
 
-        PetType cat = new PetType();
-        cat.setName("Cat");
-        PetType saveCatPetType = petTypeService.save(cat);
 
         System.out.println("Loading Vet");
     }

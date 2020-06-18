@@ -1,18 +1,31 @@
-    /*
-This Class is extending AbstractMapService which has generic defination of all the methons.
-Here it will pass it's own object to the methods of base class using super keyword and
-operation will be performed based in it.
+/*
+From v123 : Now we will link Pet to its owner and that Pet will be of a PetType.
  */
 
 package guru.springframework.sfgpetclinic.services.map;
 
 import guru.springframework.sfgpetclinic.model.Owner;
+import guru.springframework.sfgpetclinic.model.Pet;
 import guru.springframework.sfgpetclinic.services.OwnerService;
+import guru.springframework.sfgpetclinic.services.PetService;
+import guru.springframework.sfgpetclinic.services.PetTypeService;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 @Service
 public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements OwnerService {
+
+    /*
+    New data memebers we are taking in v123 to link pets with there owners.
+     */
+
+    private final PetTypeService petTypeService;
+    private final PetService petService;
+
+    public OwnerServiceMap(PetTypeService petTypeService, PetService petService) {
+        this.petTypeService = petTypeService;
+        this.petService = petService;
+    }
 
     @Override
     public Set<Owner> findAll() {
@@ -26,11 +39,27 @@ public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements 
 
     @Override
     public Owner save(Owner object) {
-        //return super.save(object.getId(),object);
-        //As we have modified the method in AbstractMapService as we are now not stroing ID
-        //manually Instead hasmap is genrating for us.
-        //So need to modify this as well.
-        return super.save(object);
+
+        if(object != null) {
+            if(object.getPets() != null) {
+                object.getPets().forEach(pet -> {
+                    if(pet.getPetType() != null) {
+                        if(pet.getPetType().getId() == null) {
+                            pet.setPetType(petTypeService.save(pet.getPetType()));
+                        }
+                    } else {
+                        throw new RuntimeException("Pet Type is Required");
+                    }
+                    if(pet.getId() == null) {
+                        Pet savedPet = petService.save(pet);
+                        pet.setId(savedPet.getId());
+                    }
+                });
+            }
+            return super.save(object);
+        } else {
+            return null;
+        }
     }
 
     @Override
