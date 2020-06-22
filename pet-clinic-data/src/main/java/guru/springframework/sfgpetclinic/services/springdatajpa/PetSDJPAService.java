@@ -1,7 +1,7 @@
 /*
 Completed till video 154. We already had MAP Services but we were not using Tables and entity. Like in PRevious videos we have created
 entities so we need service based on those. So to solve this we have created new service for everything. We have not deleted map services we can still u
-se them. In new Services we have given Profile so we can switch between the profiles to use any service"
+se them. In new Services we have given Profile so we can switch between the profiles to use any service
 
  */
 
