@@ -10,7 +10,7 @@ We are giving Service and whereever we will use the service we will give Autowir
 this is the service so create it's object internally i.e the object of PetServiceMap
  */
 @Service
-public class PetServiceMap extends AbstractMapService<Pet, Long> implements PetService {
+public class PetMapService extends AbstractMapService<Pet, Long> implements PetService {
 
     @Override
     public Set<Pet> findAll() {
