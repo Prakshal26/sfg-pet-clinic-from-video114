@@ -1,16 +1,36 @@
 package guru.springframework.sfgpetclinic.model;
 
+import lombok.*;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+
+/*
+Now we will use Project Lombok, with this we do not want to explicitly give getters and setters. Automatically
+getter and setter are there. Lombok takes care of it. We can specify that by giving @Setter @Getter etc etc
+Thing we want to be hidden and taken cared by lombok.
+ */
+@Setter
+@Getter
+@NoArgsConstructor
 //We Want to create a DB of this class. By default JPA will create DB of this class having
 // number of columns= number of data member in this class.
 //Table name we have given
 @Entity
 @Table(name="owners")
 public class Owner extends Person {
+
+    public Owner(Long id, String firstName, String lastName, String address, String city,
+    String telephone, Set<Pet>pets) {
+        //Owner Extends person so check person for super
+        super(id,firstName,lastName);
+        this.address=address;
+        this.city=city;
+        this.telephone=telephone;
+        this.pets=pets;
+    }
 
     @Column(name = "address")//Column we are giving Address. By default also jpa will create column name
     private String address;
@@ -31,35 +51,5 @@ public class Owner extends Person {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "owner")
     private Set<Pet> pets = new HashSet<>();
 
-    public String getAddress() {
-        return address;
-    }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public Set<Pet> getPets() {
-        return pets;
-    }
-
-    public void setPets(Set<Pet> pets) {
-        this.pets = pets;
-    }
 }
