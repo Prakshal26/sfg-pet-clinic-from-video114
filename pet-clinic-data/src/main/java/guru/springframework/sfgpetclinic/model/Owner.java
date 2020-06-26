@@ -22,6 +22,7 @@ Thing we want to be hidden and taken cared by lombok.
 @Table(name="owners")
 public class Owner extends Person {
 
+    @Builder
     public Owner(Long id, String firstName, String lastName, String address, String city,
     String telephone, Set<Pet>pets) {
         //Owner Extends person so check person for super
