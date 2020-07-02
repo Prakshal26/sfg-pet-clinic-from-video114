@@ -33,6 +33,8 @@ public class Pet extends BaseEntity{
     @ManyToOne
     @JoinColumn(name="owner_id")
     private Owner owner;
+
+
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
