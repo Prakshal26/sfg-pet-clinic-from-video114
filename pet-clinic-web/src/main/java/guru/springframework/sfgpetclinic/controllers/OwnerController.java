@@ -114,12 +114,12 @@ public class OwnerController {
 
     @PostMapping("/new")
     public String processCreationForm(@Valid Owner owner, BindingResult result) {
-        if (result.hasErrors()) {
-            return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
-        } else {
-            Owner savedOwner =  ownerService.save(owner);
-            return "redirect:/owners/" + savedOwner.getId();
-        }
+            if (result.hasErrors()) {
+                return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+            } else {
+                Owner savedOwner =  ownerService.save(owner);
+                return "redirect:/owners/" + savedOwner.getId();
+            }
     }
 
     @GetMapping("/{ownerId}/edit")

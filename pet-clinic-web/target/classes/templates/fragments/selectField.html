@@ -1,6 +1,7 @@
 <html>
 <body>
   <form>
+    Type', 'petType', ${types})}" />
     <th:block th:fragment="select (label, name, items)">
       <div th:with="valid=${!#fields.hasErrors(name)}"
         th:class="${'form-group' + (valid ? '' : ' has-error')}"
